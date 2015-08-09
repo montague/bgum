@@ -11,8 +11,13 @@ defmodule Mix.Tasks.Bgum.New do
 
 
   def run(args) do
-    IO.puts "======bgum.new: #{args}"
+    hd(args) |> create_scaffold
+  end
+
+  defp create_scaffold(path) do
+    File.mkdir_p!("#{path}/content")
+    File.touch!("#{path}/layout.eex")
+    ~w(javascripts stylesheets images)
+    |> Enum.each(&File.mkdir_p!("#{path}/assets/#{&1}"))
   end
 end
-
-
