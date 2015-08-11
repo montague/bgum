@@ -11,7 +11,11 @@ defmodule Mix.Tasks.Bgum.New do
 
 
   def run(args) do
-    hd(args) |> create_scaffold
+    if args == [] do
+      IO.puts "Project directory required"
+    else
+      hd(args) |> create_scaffold
+    end
   end
 
   defp create_scaffold(path) do
@@ -19,5 +23,6 @@ defmodule Mix.Tasks.Bgum.New do
     File.touch!("#{path}/layout.eex")
     ~w(javascripts stylesheets images)
     |> Enum.each(&File.mkdir_p!("#{path}/assets/#{&1}"))
+    IO.puts "created scaffold at #{path}"
   end
 end
