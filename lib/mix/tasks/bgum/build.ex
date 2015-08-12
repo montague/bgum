@@ -1,4 +1,5 @@
 defmodule Mix.Tasks.Bgum.Build do
+  require EEx
   use Mix.Task
 
   @shortdoc "Build a bgum project"
@@ -10,17 +11,24 @@ defmodule Mix.Tasks.Bgum.Build do
   """
 
   def run(args) do
-    case Mix.env do
-      :dev -> run_in_dev_mode
-    end
+    Mix.Task.run("app.start", args)
+    run_in_dev_mode
   end
 
   def run_in_dev_mode do
-    IO.puts "=====running in dev mode"
+    IO.puts "=====running in #{Mix.env} mode"
     File.cd!("test/fixtures/omg")
-    "content" |> File.ls! |> Enum.each(fn file ->
-      "content/#{file}" |> File.read! |> IO.chardata_to_string |> IO.puts
+    get_content("#{File.cwd!}/content") |> IO.inspect
+  end
+
+  defp get_content(dir) do
+    dir |> File.ls! |> Enum.map(fn file ->
+      "content/#{file}" |> :yamerl_constr.file
     end)
+  end
+
+  defp apply_layout(content) do
+
   end
 end
 
