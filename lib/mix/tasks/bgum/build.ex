@@ -14,12 +14,14 @@ defmodule Mix.Tasks.Bgum.Build do
 
   def run(args) do
     Mix.Task.run("app.start", args)
+    #path = Path.expand(hd(args))
     run_in_dev_mode
   end
 
   def run_in_dev_mode do
     IO.puts "=====running in #{Mix.env} mode====="
     File.cd!("test/fixtures/omg")
+    Bgum.Config.before_build
     content = get_content("#{File.cwd!}/content")
     content |> IO.inspect
     content |> Renderer.write_pages

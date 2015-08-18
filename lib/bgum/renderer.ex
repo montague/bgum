@@ -20,7 +20,6 @@ defmodule Bgum.Renderer do
   end
 
   defp render_to_file(page, dir \\ @build_dir) do
-    IEx.pry
     path = dir |> Path.join("#{page(page, :name)}.html")
     File.open!(path, [:write, :utf8, :exclusive], fn file ->
       IO.write file, render_to_string(page(page, :content))
