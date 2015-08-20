@@ -21,13 +21,12 @@ defmodule Mix.Tasks.Bgum.Build do
 
   def run_in_dev_mode do
     IO.puts "=====running in #{Mix.env} mode====="
-    File.cd!("test/fixtures/omg")
-    Bgum.Builder.build!
+    Builder.build!("test/fixtures/omg")
     #Bgum.Config.before_build
     #content = get_content("#{File.cwd!}/content")
     #content |> IO.inspect
     #content |> Renderer.write_pages
-    IO.puts "=====running in #{Mix.env} mode====="
+    IO.puts "=====finished running in #{Mix.env} mode====="
   end
 
   #defp get_content(dir) do
