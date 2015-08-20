@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>title of stuff</title>
   </head>
   <body>
-    <%= body %>
+    <%= @body %>
   </body>
 </html>
 

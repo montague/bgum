@@ -3,4 +3,4 @@
 erl_crash.dump
 *.ez
 tmp
-_bgum_static
+test/fixtures/omg/_build_static

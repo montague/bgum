@@ -7,8 +7,31 @@ defmodule Bgum.Builder do
     File.cd!(path)
     reset_build_dir!
     load_lib_files_and_run_config
-    pages = get_pages_to_render
-    IO.inspect pages
+    layout = File.read!("source/layouts/application.html.eex")
+    get_pages_to_render
+    |> Enum.each(fn file_to_open ->
+      dest = Path.join(@static_src_dir, dest_for_page(file_to_open))
+      unless File.exists?(dest) do
+        File.mkdir_p!(Path.dirname(dest))
+      end
+      File.open!(dest, [:write, :utf8, :exclusive], fn f ->
+        IO.write f, render_file_with_layout(
+          layout, File.read!(file_to_open)
+        )
+      end)
+    end)
+  end
+
+  defp dest_for_page(file_path) do
+    file_path
+    |> String.split("source/pages/") # TODO unhack this
+    |> Enum.reverse
+    |> hd
+    |> Path.rootname
+  end
+
+  defp render_file_with_layout(file, layout) do
+    EEx.eval_string layout, assigns: [body: file]
   end
 
   defp get_pages_to_render do
