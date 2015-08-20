@@ -6,23 +6,19 @@ defmodule Bgum.Builder do
   def build!(path) do
     File.cd!(path)
     reset_build_dir!
-    load_lib_files
-    run_config
-    pages = get_pages
+    load_lib_files_and_run_config
+    pages = get_pages_to_render
+    IO.inspect pages
   end
 
-  defp get_pages do
+  defp get_pages_to_render do
     Utils.ls_with_paths("source/pages/**")
     |> Enum.filter(&(Path.extname(&1) == ".eex"))
   end
 
-  defp run_config do
-    Code.eval_file "config.exs"
-  end
-
-  defp load_lib_files do
-    # load lib files
+  defp load_lib_files_and_run_config do
     Utils.ls_with_paths("lib/**.ex") |> Enum.each(&Code.require_file/1)
+    Code.eval_file "config.exs"
   end
 
   defp reset_build_dir! do
