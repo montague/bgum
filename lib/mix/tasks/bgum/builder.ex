@@ -1,7 +1,8 @@
 defmodule Mix.Tasks.Bgum.Build do
-  alias Bgum.Parser
-  alias Bgum.Renderer
-  alias Bgum.Utils
+  #alias Bgum.Parser
+  #alias Bgum.Renderer
+  #alias Bgum.Utils
+  alias Bgum.Builder
   use Mix.Task
 
   @shortdoc "Build a bgum project"
@@ -21,17 +22,18 @@ defmodule Mix.Tasks.Bgum.Build do
   def run_in_dev_mode do
     IO.puts "=====running in #{Mix.env} mode====="
     File.cd!("test/fixtures/omg")
-    Bgum.Config.before_build
-    content = get_content("#{File.cwd!}/content")
-    content |> IO.inspect
-    content |> Renderer.write_pages
+    Bgum.Builder.build!
+    #Bgum.Config.before_build
+    #content = get_content("#{File.cwd!}/content")
+    #content |> IO.inspect
+    #content |> Renderer.write_pages
     IO.puts "=====running in #{Mix.env} mode====="
   end
 
-  defp get_content(dir) do
-    dir
-    |> Utils.ls_with_paths
-    |> Enum.map(&Parser.parse_into_page(&1))
-  end
+  #defp get_content(dir) do
+    #dir
+    #|> Utils.ls_with_paths
+    #|> Enum.map(&Parser.parse_into_page(&1))
+  #end
 end
 
