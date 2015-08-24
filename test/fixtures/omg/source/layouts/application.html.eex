@@ -4,6 +4,12 @@
     <title>title of stuff</title>
   </head>
   <body>
+    <ul>
+      <li><%= Bgum.Builder.testing %>
+      <%#<li><%= Bgum.ViewHelpers.index_path %>%>
+      <%#<li><%= Bgum.ViewHelpers.posts_cool_post_path %>%>
+    </ul>
+    <h1>You are inside my layout!</h1>
     <%= @body %>
   </body>
 </html>

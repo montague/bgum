@@ -1,5 +1,6 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
+  alias Bgum.ViewHelpers
 
   @static_src_dir "_build_static"
 
@@ -10,16 +11,27 @@ defmodule Bgum.Builder do
     layout = File.read!("source/layouts/application.html.eex")
     get_pages_to_render
     |> Enum.each(fn file_to_open ->
-      dest = Path.join(@static_src_dir, dest_for_page(file_to_open))
-      unless File.exists?(dest) do
-        File.mkdir_p!(Path.dirname(dest))
-      end
-      File.open!(dest, [:write, :utf8, :exclusive], fn f ->
+      page_dest = dest_for_page(file_to_open)
+      File.open!(create_dest(page_dest), [:write, :utf8, :exclusive], fn f ->
         IO.write f, render_file_with_layout(
-          layout, File.read!(file_to_open)
+          file: File.read!(file_to_open), layout: layout
         )
       end)
+      # TODO get this working
+      ViewHelpers.create_path_helper_for(page_dest)
     end)
+  end
+
+  def testing do
+    "testing things!!"
+  end
+
+  defp create_dest(path) do
+    dest = Path.join(@static_src_dir, path)
+    unless File.exists?(dest) do
+      File.mkdir_p!(Path.dirname(dest))
+    end
+    dest
   end
 
   defp dest_for_page(file_path) do
@@ -30,7 +42,7 @@ defmodule Bgum.Builder do
     |> Path.rootname
   end
 
-  defp render_file_with_layout(file, layout) do
+  defp render_file_with_layout([file: file, layout: layout]) do
     EEx.eval_string layout, assigns: [body: file]
   end
 
