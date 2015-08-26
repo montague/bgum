@@ -1,6 +1,5 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
-  alias Bgum.ViewHelpers
 
   @static_src_dir "_build_static"
 
@@ -9,16 +8,15 @@ defmodule Bgum.Builder do
     reset_build_dir!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
-    get_pages_to_render
-    |> Enum.each(fn file_to_open ->
-      page_dest = dest_for_page(file_to_open)
-      File.open!(create_dest(page_dest), [:write, :utf8, :exclusive], fn f ->
+    Enum.reduce(files_to_render, %{}, fn file, map ->
+      Dict.put(map, file, dest_for_page(file))
+    end)
+    |> Enum.each(fn {file_to_open, dest} ->
+      File.open!(create_dest(dest), [:write, :utf8, :exclusive], fn f ->
         IO.write f, render_file_with_layout(
           file: File.read!(file_to_open), layout: layout
         )
       end)
-      # TODO get this working
-      ViewHelpers.create_path_helper_for(page_dest)
     end)
   end
 
@@ -46,7 +44,7 @@ defmodule Bgum.Builder do
     EEx.eval_string layout, assigns: [body: file]
   end
 
-  defp get_pages_to_render do
+  defp files_to_render do
     Utils.ls_with_paths("source/pages/**")
     |> Enum.filter(&(Path.extname(&1) == ".eex"))
   end
