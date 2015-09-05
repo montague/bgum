@@ -3,10 +3,11 @@ defmodule Bgum.Builder do
   alias Bgum.Renderer
 
   @static_src_dir "_build_static"
+  @templates_dir "_templates"
 
   # monster kitchen sink method
   def build!(path) do
-    reset_build_dir!
+    reset_build_dirs!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
     # collecting list of files and their destinations
@@ -19,10 +20,15 @@ defmodule Bgum.Builder do
         IO.write f, Renderer.render_with_layout(layout, file_to_open)
       end)
     end)
+    File.rm_rf! templates
   end
 
   def testing do
     "testing things!!"
+  end
+
+  def templates do
+    @templates_dir
   end
 
   defp create_dest(path) do
@@ -35,15 +41,20 @@ defmodule Bgum.Builder do
 
   defp dest_for_page(file_path) do
     file_path
-    |> String.split("source/pages/") # TODO unhack this
+    |> String.split(~r(source/pages/|#{templates}/)) # TODO unhack this
     |> Enum.reverse
     |> hd
     |> Path.rootname
   end
 
   defp files_to_render do
-    Utils.ls_with_paths("source/pages/**")
+    ["source/pages/**", "#{templates}/**"]
+    |> Utils.ls_with_paths
     |> Enum.filter(&(Path.extname(&1) == ".eex"))
+
+    #Utils.ls_with_paths([
+      #Path.join(["source","pages","**"]), Path.join([@workspace_dir, "**"])
+    #]) |> Enum.filter(&(Path.extname(&1) == ".eex"))
   end
 
   defp load_lib_files_and_run_config do
@@ -51,8 +62,10 @@ defmodule Bgum.Builder do
     Code.eval_file "config.exs"
   end
 
-  defp reset_build_dir! do
+  defp reset_build_dirs! do
     File.rm_rf! @static_src_dir
     File.mkdir! @static_src_dir
+    File.rm_rf! templates
+    File.mkdir! templates
   end
 end
