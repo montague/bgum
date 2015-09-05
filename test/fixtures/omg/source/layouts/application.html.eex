@@ -6,8 +6,8 @@
   <body>
     <ul>
       <li><%= Bgum.Builder.testing %>
-        <li><a href="about.html">about</a></li>
-        <li><a href="posts/cool_post.html">post</a></li>
+        <li><a href="/about.html">about</a></li>
+        <li><a href="/posts/cool_post.html">post</a></li>
     </ul>
     <h1>You are inside my layout!</h1>
     <%= @body %>

@@ -1,1 +1,2 @@
 <h1>This is a cool post</h1>
+<%= Bgum.Renderer.render_partial "msg", msg: "Hello from a partial!!"  %>

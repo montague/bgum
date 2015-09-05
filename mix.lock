@@ -1,1 +1,4 @@
-%{"yamerl": {:git, "git://github.com/yakaz/yamerl.git", "ae810a808817d9482b4628ae3e20d746e3729fe0", []}}
+%{"cowboy": {:hex, :cowboy, "1.0.2"},
+  "cowlib": {:hex, :cowlib, "1.0.1"},
+  "ranch": {:hex, :ranch, "1.1.0"},
+  "yamerl": {:git, "git://github.com/yakaz/yamerl.git", "ae810a808817d9482b4628ae3e20d746e3729fe0", []}}

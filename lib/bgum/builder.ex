@@ -1,21 +1,23 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
+  alias Bgum.Renderer
 
   @static_src_dir "_build_static"
 
+  # monster kitchen sink method
   def build!(path) do
-    File.cd!(path)
+    #File.cd!(path)
     reset_build_dir!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
+    # collecting list of files and their destinations
     Enum.reduce(files_to_render, %{}, fn file, map ->
       Dict.put(map, file, dest_for_page(file))
     end)
+    # write each file to its destination (includes render)
     |> Enum.each(fn {file_to_open, dest} ->
       File.open!(create_dest(dest), [:write, :utf8, :exclusive], fn f ->
-        IO.write f, render_file_with_layout(
-          file: File.read!(file_to_open), layout: layout
-        )
+        IO.write f, Renderer.render_with_layout(layout, file_to_open)
       end)
     end)
   end
@@ -38,10 +40,6 @@ defmodule Bgum.Builder do
     |> Enum.reverse
     |> hd
     |> Path.rootname
-  end
-
-  defp render_file_with_layout([file: file, layout: layout]) do
-    EEx.eval_string layout, assigns: [body: file]
   end
 
   defp files_to_render do

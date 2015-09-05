@@ -1,0 +1,3 @@
+Hi! here is my message: <%= @msg %>
+Here is a joke:
+<%= Bgum.Renderer.render_partial "lol", joke: "laughs" %>
