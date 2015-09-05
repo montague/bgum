@@ -51,10 +51,6 @@ defmodule Bgum.Builder do
     ["source/pages/**", "#{templates}/**"]
     |> Utils.ls_with_paths
     |> Enum.filter(&(Path.extname(&1) == ".eex"))
-
-    #Utils.ls_with_paths([
-      #Path.join(["source","pages","**"]), Path.join([@workspace_dir, "**"])
-    #]) |> Enum.filter(&(Path.extname(&1) == ".eex"))
   end
 
   defp load_lib_files_and_run_config do
