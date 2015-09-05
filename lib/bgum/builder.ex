@@ -6,7 +6,6 @@ defmodule Bgum.Builder do
 
   # monster kitchen sink method
   def build!(path) do
-    #File.cd!(path)
     reset_build_dir!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
