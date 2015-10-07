@@ -4,4 +4,5 @@ erl_crash.dump
 *.ez
 tmp
 test/fixtures/omg/_build_static
+test/fixtures/omg/_templates
 test/fixtures/thecodingdictionary
