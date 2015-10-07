@@ -1,6 +1,7 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
   alias Bgum.Renderer
+  alias Bgum.Bindings
 
   @static_src_dir "_build_static"
   @templates_dir "_templates"
@@ -10,7 +11,8 @@ defmodule Bgum.Builder do
     reset_build_dirs!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
-    # collecting list of files and their destinations
+    Bindings.start
+    # collect list of files and their destinations
     Enum.reduce(files_to_render, %{}, fn file, map ->
       Dict.put(map, file, dest_for_page(file))
     end)
