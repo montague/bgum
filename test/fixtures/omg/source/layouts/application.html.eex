@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>title of stuff</title>
+    <title><%= @title || "Omg!!" %></title>
   </head>
   <body>
     <ul>

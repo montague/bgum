@@ -9,6 +9,6 @@
  #end)
  # make sure the lib stuff is available
  IO.puts "======config running: #{Omg.title}"
- IO.puts "===in config!====>#{Bgum.Builder.templates}"
- Omg.build_pages(Bgum.Builder.templates)
+ IO.puts "===in config!====>#{Bgum.Builder.templates_dir}"
+ Omg.build_pages(Bgum.Builder.templates_dir)
 

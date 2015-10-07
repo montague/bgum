@@ -13,9 +13,7 @@ defmodule Omg do
       page_dest = page |> Path.rootname |> Path.basename
       File.open!("#{dest}/#{page_dest}.eex",
         [:write, :utf8, :exclusive],
-        fn f ->
-          IO.write f, File.read!(page)
-        end)
+        &(IO.write &1, File.read!(page)))
     end)
   end
 

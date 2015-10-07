@@ -20,14 +20,14 @@ defmodule Bgum.Builder do
         IO.write f, Renderer.render_with_layout(layout, file_to_open)
       end)
     end)
-    File.rm_rf! templates
+    File.rm_rf! templates_dir
   end
 
   def testing do
     "testing things!!"
   end
 
-  def templates do
+  def templates_dir do
     @templates_dir
   end
 
@@ -41,14 +41,14 @@ defmodule Bgum.Builder do
 
   defp dest_for_page(file_path) do
     file_path
-    |> String.split(~r(source/pages/|#{templates}/)) # TODO unhack this
+    |> String.split(~r(source/pages/|#{templates_dir}/)) # TODO unhack this
     |> Enum.reverse
     |> hd
     |> Path.rootname
   end
 
   defp files_to_render do
-    ["source/pages/**", "#{templates}/**"]
+    ["source/pages/**", "#{templates_dir}/**"]
     |> Utils.ls_with_paths
     |> Enum.filter(&(Path.extname(&1) == ".eex"))
   end
@@ -61,7 +61,7 @@ defmodule Bgum.Builder do
   defp reset_build_dirs! do
     File.rm_rf! @static_src_dir
     File.mkdir! @static_src_dir
-    File.rm_rf! templates
-    File.mkdir! templates
+    File.rm_rf! templates_dir
+    File.mkdir! templates_dir
   end
 end
