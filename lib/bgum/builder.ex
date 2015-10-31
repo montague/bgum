@@ -1,7 +1,6 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
   alias Bgum.Renderer
-  alias Bgum.Bindings
 
   @static_src_dir "_build_static"
   @templates_dir "_templates"

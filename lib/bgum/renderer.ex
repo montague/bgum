@@ -1,5 +1,4 @@
 defmodule Bgum.Renderer do
-  alias Bgum.Bindings
 
   @partial_dir Path.join("source","partials")
 
@@ -18,7 +17,6 @@ defmodule Bgum.Renderer do
   end
 
   def render_with_layout(layout, file) do
-    IO.puts "======>#{file}"
     body =  render_file(file)
     render(layout, [body: body])
   end
