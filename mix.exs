@@ -19,7 +19,6 @@ defmodule Bgum.Mixfile do
 
   defp deps do
     [
-      { :yamerl, github: "yakaz/yamerl" },
       { :cowboy, "~> 1.0.2" }
     ]
   end
