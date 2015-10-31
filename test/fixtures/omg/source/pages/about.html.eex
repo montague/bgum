@@ -1,4 +1,1 @@
-<% require IEx %>
-<% IEx.pry %>
-<% Bgum.Bindings.set("about.html", title: "About.html title") %>
 <h1>This is the about page</h1>

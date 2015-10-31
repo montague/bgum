@@ -8,10 +8,10 @@ defmodule Bgum.Builder do
 
   # monster kitchen sink method
   def build!(path) do
+    File.cd! path
     reset_build_dirs!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
-    Bindings.start
     # collect list of files and their destinations
     Enum.reduce(files_to_render, %{}, fn file, map ->
       Dict.put(map, file, dest_for_page(file))

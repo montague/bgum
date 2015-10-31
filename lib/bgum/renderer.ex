@@ -18,8 +18,8 @@ defmodule Bgum.Renderer do
   end
 
   def render_with_layout(layout, file) do
+    IO.puts "======>#{file}"
     body =  render_file(file)
-    bindings = [body: body] ++ Dict.get(Bindings.get, file, [])
-    render(layout, bindings)
+    render(layout, [body: body])
   end
 end
