@@ -11,14 +11,10 @@ defmodule Bgum.Builder do
     reset_build_dirs!
     load_lib_files_and_run_config
     layout = File.read!("source/layouts/application.html.eex")
-    # collect list of files and their destinations
-    Enum.reduce(files_to_render, %{}, fn file, map ->
-      Dict.put(map, file, dest_for_page(file))
-    end)
-    # write each file to its destination (includes render)
-    |> Enum.each(fn {file_to_open, dest} ->
-      File.open!(create_dest(dest), [:write, :utf8, :exclusive], fn f ->
-        IO.write f, Renderer.render_with_layout(layout, file_to_open)
+    Enum.each(files_to_render, fn file_to_render ->
+      dest = file_to_render |> dest_for_page |> create_dest
+      File.open!(dest, [:write, :utf8, :exclusive], fn f ->
+        IO.write f, Renderer.render_with_layout(layout, file_to_render)
       end)
     end)
     File.rm_rf! templates_dir
