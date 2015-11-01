@@ -9,9 +9,9 @@ defmodule Mix.Tasks.Bgum.Server do
   TODO: Auto-build files on change
   """
 
-  def run(_) do
+  def run([path | _]) do
     # TODO don't use ruby :)
-    # TODO figure out path stuff
-    System.cmd "ruby", ~w(-run -ehttpd _build_static/ -p8001)
+    File.cd! path
+    System.cmd "ruby", ~w(-run -ehttpd _bgum_build_static/ -p8001)
   end
 end

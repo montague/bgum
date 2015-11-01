@@ -14,9 +14,9 @@ defmodule Mix.Tasks.Bgum.Build do
     run_in_dev_mode
   end
 
-  def run(args) do
+  def run([path | _]) do
     #Mix.Task.run("app.start", args)
-    run_in_dev_mode(hd(args))
+    run_in_dev_mode(path)
   end
 
   def run_in_dev_mode(path \\ "omg") do

@@ -1,1 +1,2 @@
+<% Bgum.Bindings.set(__ENV__.file, title: "About.html title") %>
 <h1>This is the about page</h1>

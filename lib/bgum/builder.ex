@@ -1,16 +1,18 @@
 defmodule Bgum.Builder do
   alias Bgum.Utils
   alias Bgum.Renderer
+  alias Bgum.Bindings
 
-  @static_src_dir "_build_static"
-  @templates_dir "_templates"
+  @static_src_dir "_bgum_build_static"
+  @templates_dir "_bgum_templates"
 
   # monster kitchen sink method
   def build!(path) do
     File.cd! path
     reset_build_dirs!
     load_lib_files_and_run_config
-    layout = File.read!("source/layouts/application.html.eex")
+    layout = "source/layouts/application.html.eex"
+    Bindings.start
     Enum.each(files_to_render, fn file_to_render ->
       dest = file_to_render |> dest_for_page |> create_dest
       File.open!(dest, [:write, :utf8, :exclusive], fn f ->
