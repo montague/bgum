@@ -8,7 +8,9 @@ defmodule Omg do
   end
 
   # TODO write a helper for this
-  def build_pages(dest) do
+  def build_pages(template_dir) do
+    dest = "#{template_dir}/terms"
+    File.mkdir_p! dest
     Enum.each(pages, fn page ->
       page_dest = page |> Path.rootname |> Path.basename
       File.open!("#{dest}/#{page_dest}.eex",
