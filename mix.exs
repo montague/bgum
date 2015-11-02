@@ -14,7 +14,7 @@ defmodule Bgum.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :yamerl]]
+    [applications: [:logger]]
   end
 
   defp deps do
