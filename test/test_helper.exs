@@ -1,4 +1,4 @@
-ExUnit.start()
+ExUnit.start
 
 defmodule BgumTest.Case do
   use ExUnit.CaseTemplate

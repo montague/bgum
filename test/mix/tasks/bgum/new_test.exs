@@ -11,9 +11,4 @@ defmodule Mix.Tasks.Bgum.NewTest do
     assert File.exists?("bgum/assets/stylesheets")
     assert File.exists?("bgum/assets/images")
   end
-
-  test "test" do
-    IO.puts "test"
-    assert 5 > 5
-  end
 end
